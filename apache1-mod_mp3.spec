@@ -25,9 +25,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define         _pkglibdir      %(%{apxs} -q LIBEXECDIR)
 %define         _sysconfdir     /etc/httpd
 
-%prep
-%setup -q -n %{arname}-%{version}
-
 %description
 This turns apache into your basic RIAA hating, but every college
 student loving mp3 streaming server. It can play from a list of files,
@@ -41,6 +38,9 @@ uwielbiany przez studentów serwer strumieni MP3. Mo¿e odtwarzaæ listê
 plików, w kolejno¶ci lub losowo. Mo¿e byæ tak¿e u¿yty do buforowania
 plików mp3 w pamiêci, pozwalaj±c serwerowi operowaæ wy³±cznie na
 pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
+
+%prep
+%setup -q -n %{arname}-%{version}
 
 %build
 ./configure
