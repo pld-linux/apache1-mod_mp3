@@ -9,6 +9,7 @@ Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://software.tangent.org/download/%{arname}-%{version}.tar.gz
+# Source0-md5:	357f0d7b8d3b5f4ec1baf50dafb0bf24
 Source1:	%{arname}.conf
 URL:		http://media.tangent.org/
 BuildRequires:	%{apxs}
