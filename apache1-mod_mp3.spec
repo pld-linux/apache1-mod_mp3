@@ -4,8 +4,8 @@
 Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
-Version:	0.31
-Release:	2
+Version:	0.35
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	ftp://ftp.tangent.org/pub/apache/%{arname}-%{version}.tar.gz
@@ -49,7 +49,7 @@ pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}}
 
-install mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
+install src/mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
 gzip -9nf README ChangeLog LICENSE
