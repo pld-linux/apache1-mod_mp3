@@ -46,7 +46,7 @@ pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
 
 %{__make} \
 	APXS=%{apxs} \
-	ACINCLUDEDIR="-I`%{apxs} -q INCLUDEDIR` `%{apxs} -q CFLAGS` %{rpmcflags}"
+	ACINCLUDEDIR="-I`%{apxs} -q INCLUDEDIR` `%{apxs} -q CFLAGS` %{rpmcflags} -fPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
