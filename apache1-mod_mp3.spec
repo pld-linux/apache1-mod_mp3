@@ -1,5 +1,6 @@
 %define		arname		mod_mp3
 %define		mod_name	mp3
+%define 	apxs		/usr/sbin/apxs
 Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
@@ -7,21 +8,34 @@ Version:	0.31
 Release:	1
 License:	distributable
 Group:		Networking/Daemons
+Group(cs):	Sí»ové/Démoni
+Group(da):	Netværks/Dæmoner
 Group(de):	Netzwerkwesen/Server
+Group(es):	Red/Servidores
+Group(fr):	Réseau/Serveurs
+Group(is):	Net/Púkar
+Group(it):	Rete/Demoni
+Group(no):	Nettverks/Daemoner
 Group(pl):	Sieciowe/Serwery
+Group(pt):	Rede/Servidores
+Group(ru):	óÅÔØ/äÅÍÏÎÙ
+Group(sl):	Omre¾ni/Stre¾niki
+Group(sv):	Nätverk/Demoner
+Group(uk):	íÅÒÅÖÁ/äÅÍÏÎÉ
 Source0:	ftp://ftp.tangent.org/pub/apache/%{arname}-%{version}.tar.gz
 Source1:	%{arname}.conf
 URL:		http://media.tangent.org/
 Requires:	apache >= 1.3.12
 Prereq:		grep
-Prereq:         apache(EAPI) >= 1.3.12
+Prereq:		apache(EAPI) >= 1.3.12
+Prereq:		%{_sbindir}/apxs
 Provides:	%{arname}
-BuildRequires:	apache(EAPI) >= 1.3.12
+BuildRequires:	%{apxs}
 BuildRequires:	apache(EAPI)-devel >= 1.3.12
 BuildRequires:	expat-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _pkglibdir      %(%{_sbindir}/apxs -q LIBEXECDIR)
+%define         _pkglibdir      %(%{apxs} -q LIBEXECDIR)
 %define         _sysconfdir     /etc/httpd
 
 %prep
@@ -43,7 +57,7 @@ pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
 
 %build
 ./configure
-%{__make} APXS=/usr/sbin/apxs
+%{__make} APXS=%{apxs}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -58,7 +72,7 @@ gzip -9nf README ChangeLog LICENSE
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/usr/sbin/apxs -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+%{_sbindir}/apxs -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 if [ -f %{_sysconfdir}/httpd.conf ] && \
 	! grep -q "^Include.*/%{arname}.conf" %{_sysconfdir}/httpd.conf; then
 		echo "Include %{_sysconfdir}/%{arname}.conf" >> %{_sysconfdir}/httpd.conf
@@ -69,7 +83,7 @@ fi
 	
 %preun
 if [ "$1" = "0" ]; then
-	/usr/sbin/apxs -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+	%{_sbindir}/apxs -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 	grep -E -v "^Include.*%{arname}.conf" %{_sysconfdir}/httpd.conf > \
 	%{_sysconfdir}/httpd.conf.tmp
 	mv -f %{_sysconfdir}/httpd.conf.tmp %{_sysconfdir}/httpd.conf
