@@ -5,7 +5,7 @@ Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
 Version:	0.31
-Release:	1
+Release:	2
 License:	distributable
 Group:		Networking/Daemons
 Group(cs):	Sí»ové/Démoni
