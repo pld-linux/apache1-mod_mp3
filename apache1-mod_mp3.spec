@@ -4,7 +4,7 @@ Summary:	MP3 Apache module
 Name:		apache-mod_mp3
 Version:	0.25
 Release:	1
-License:	distributable
+License:	Distributable
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
@@ -14,9 +14,10 @@ URL:		http://media.tangent.org/
 Requires:	apache >= 1.3.12
 Prereq:		grep
 Provides:	%{arname}
-BuildRequires:	apache >= 1.3.12
-BuildRequires:	apache-devel >= 1.3.12
+BuildRequires:	apache(EAPI) >= 1.3.12
+BuildRequires:	apache(EAPI)-devel >= 1.3.12
 BuildRequires:	expat-devel
+Prereq:		apache(EAPI) >= 1.3.12
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _pkglibdir      %(%{_sbindir}/apxs -q LIBEXECDIR)
@@ -33,7 +34,7 @@ mp3's into memory and have the server operate entirely from memory.
 Enjoy, groove, mp3s not included.
 
 %build
-%{__make}
+%{__make} APXS=/usr/sbin/apxs
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -48,28 +49,28 @@ gzip -9nf README ChangeLog LICENSE
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{_sbindir}/apxs -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+/usr/sbin/apxs -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 if [ -f %{_sysconfdir}/httpd.conf ] && \
-    ! grep -q "^Include.*/%{arname}.conf" %{_sysconfdir}/httpd.conf; then
-	echo "Include %{_sysconfdir}/%{arname}.conf" >> %{_sysconfdir}/httpd.conf
+	! grep -q "^Include.*/%{arname}.conf" %{_sysconfdir}/httpd.conf; then
+		echo "Include %{_sysconfdir}/%{arname}.conf" >> %{_sysconfdir}/httpd.conf
 fi
 if [ -f /var/lock/subsys/httpd ]; then
-    /etc/rc.d/init.d/httpd restart 1>&2
+	/etc/rc.d/init.d/httpd restart 1>&2
 fi
 	
 %preun
 if [ "$1" = "0" ]; then
-    %{_sbindir}/apxs -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
-    grep -E -v "^Include.*%{arname}.conf" %{_sysconfdir}/httpd.conf > \
+	/usr/sbin/apxs -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+	grep -E -v "^Include.*%{arname}.conf" %{_sysconfdir}/httpd.conf > \
 	%{_sysconfdir}/httpd.conf.tmp
-    mv -f %{_sysconfdir}/httpd.conf.tmp %{_sysconfdir}/httpd.conf
-    if [ -f /var/lock/subsys/httpd ]; then
-        /etc/rc.d/init.d/httpd restart 1>&2
-    fi
+	mv -f %{_sysconfdir}/httpd.conf.tmp %{_sysconfdir}/httpd.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+		/etc/rc.d/init.d/httpd restart 1>&2
+	fi
 fi
 
 %files
 %defattr(644,root,root,755)
+%doc *.gz faq.html
 %config(noreplace) %{_sysconfdir}/mod_mp3.conf
 %attr(755,root,root) %{_pkglibdir}/mod_mp3.so
-%doc *.gz faq.html
