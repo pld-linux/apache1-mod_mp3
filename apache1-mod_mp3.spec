@@ -34,6 +34,13 @@ either straight through or randomly. It can also be used to cache
 mp3's into memory and have the server operate entirely from memory.
 Enjoy, groove, mp3s not included.
 
+%description -l pl
+Ten pakiet zamienia Twojego Apache w znienawidzony przez RIAA, ale
+uwielbiany przez studentów serwer strumieni MP3. Mo¿e odtwarzaæ listê
+plików, w kolejno¶ci lub losowo. Mo¿e byæ tak¿e u¿yty do buforowania
+plików mp3 w pamiêci, pozwalaj±c serwerowi operowaæ wy³±cznie na
+pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
+
 %build
 %{__make} APXS=/usr/sbin/apxs
 
