@@ -6,7 +6,7 @@ Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
 Version:	0.31
 Release:	2
-License:	distributable
+License:	BSD
 Group:		Networking/Daemons
 Source0:	ftp://ftp.tangent.org/pub/apache/%{arname}-%{version}.tar.gz
 Source1:	%{arname}.conf
