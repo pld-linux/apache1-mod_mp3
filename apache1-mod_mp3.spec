@@ -5,7 +5,7 @@ Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
 Version:	0.25
 Release:	2
-License:	Distributable
+License:	distributable
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
