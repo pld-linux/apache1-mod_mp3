@@ -82,6 +82,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README ChangeLog LICENSE faq.html support
+%doc README ChangeLog LICENSE faq.html support CONTRIBUTORS TODO utils/*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
 %attr(755,root,root) %{_pkglibdir}/mod_mp3.so
