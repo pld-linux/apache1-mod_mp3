@@ -4,7 +4,7 @@ Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache1-mod_%{mod_name}
 Version:	0.40
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.tangent.org/download/mod_%{mod_name}-%{version}.tar.gz
