@@ -3,8 +3,8 @@
 Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
-Version:	0.25
-Release:	2
+Version:	0.30
+Release:	1
 License:	distributable
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -42,6 +42,7 @@ plików mp3 w pamiêci, pozwalaj±c serwerowi operowaæ wy³±cznie na
 pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
 
 %build
+./configure
 %{__make} APXS=/usr/sbin/apxs
 
 %install
@@ -79,6 +80,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz faq.html
+%doc *.gz faq.html support
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mod_mp3.conf
 %attr(755,root,root) %{_pkglibdir}/mod_mp3.so
