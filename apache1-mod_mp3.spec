@@ -11,14 +11,14 @@ Group:		Networking/Daemons
 Source0:	http://software.tangent.org/download/%{arname}-%{version}.tar.gz
 Source1:	%{arname}.conf
 URL:		http://media.tangent.org/
-Requires:	apache >= 1.3.12
-Prereq:		grep
-Prereq:		apache(EAPI) >= 1.3.12
-Prereq:		%{_sbindir}/apxs
-Provides:	%{arname}
 BuildRequires:	%{apxs}
 BuildRequires:	apache(EAPI)-devel >= 1.3.12
 BuildRequires:	expat-devel
+PreReq:		apache(EAPI) >= 1.3.12
+Requires(post,preun):	%{apxs}
+Requires(post,preun):	grep
+Requires(preun):	fileutils
+Provides:	%{arname}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _pkglibdir      %(%{apxs} -q LIBEXECDIR)
@@ -43,6 +43,7 @@ pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
 
 %build
 ./configure
+
 %{__make} APXS=%{apxs}
 
 %install
@@ -68,8 +69,9 @@ fi
 %preun
 if [ "$1" = "0" ]; then
 	%{apxs} -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+	umask 027
 	grep -E -v "^Include.*%{arname}.conf" %{_sysconfdir}/httpd.conf > \
-	%{_sysconfdir}/httpd.conf.tmp
+		%{_sysconfdir}/httpd.conf.tmp
 	mv -f %{_sysconfdir}/httpd.conf.tmp %{_sysconfdir}/httpd.conf
 	if [ -f /var/lock/subsys/httpd ]; then
 		/etc/rc.d/init.d/httpd restart 1>&2
