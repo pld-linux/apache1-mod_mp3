@@ -8,7 +8,7 @@ Version:	0.38
 Release:	1
 License:	BSD
 Group:		Networking/Daemons
-Source0:	ftp://ftp.tangent.org/pub/apache/%{arname}-%{version}.tar.gz
+Source0:	http://software.tangent.org/download/%{arname}-%{version}.tar.gz
 Source1:	%{arname}.conf
 URL:		http://media.tangent.org/
 Requires:	apache >= 1.3.12
