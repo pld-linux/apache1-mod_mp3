@@ -1,0 +1,2 @@
+- added %verify(not size mtime md5) to %{_sysconfdir}/mod_mp3.conf
+- added pl summary
