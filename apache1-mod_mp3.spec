@@ -6,7 +6,7 @@ Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache1-mod_%{mod_name}
 Version:	0.40
-Release:	2.2
+Release:	2.3
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.tangent.org/download/mod_%{mod_name}-%{version}.tar.gz
@@ -67,7 +67,7 @@ if [ -f /var/lock/subsys/apache ]; then
 	/etc/rc.d/init.d/apache restart 1>&2
 fi
 
-%preun
+%postun
 if [ "$1" = "0" ]; then
 	if [ -f /var/lock/subsys/apache ]; then
 		/etc/rc.d/init.d/apache restart 1>&2
