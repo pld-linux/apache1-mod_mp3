@@ -4,17 +4,17 @@
 Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
-Version:	0.39
+Version:	0.40
 Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://software.tangent.org/download/%{arname}-%{version}.tar.gz
-# Source0-md5:	357f0d7b8d3b5f4ec1baf50dafb0bf24
+# Source0-md5:	a36b25ee4db268df45a03231993e718d
 Source1:	%{arname}.conf
 URL:		http://media.tangent.org/
 BuildRequires:	%{apxs}
 BuildRequires:	apache(EAPI)-devel >= 1.3.12
-BuildRequires:	expat-devel
+BuildRequires:	libghttp-devel
 PreReq:		apache(EAPI) >= 1.3.12
 Requires(post,preun):	%{apxs}
 Requires(post,preun):	grep
@@ -45,7 +45,9 @@ pamiêci. Baw siê dobrze; pliki mp3 nie s± za³±czone.
 %build
 ./configure
 
-%{__make} APXS=%{apxs}
+%{__make} \
+	APXS=%{apxs} \
+	ACINCLUDEDIR="-I`%{apxs} -q INCLUDEDIR` `%{apxs} -q CFLAGS` %{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
