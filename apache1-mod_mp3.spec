@@ -4,7 +4,7 @@
 Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache-mod_mp3
-Version:	0.35
+Version:	0.38
 Release:	1
 License:	BSD
 Group:		Networking/Daemons
@@ -52,8 +52,6 @@ install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}}
 install src/mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
-gzip -9nf README ChangeLog LICENSE
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -80,6 +78,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz faq.html support
+%doc README ChangeLog LICENSE faq.html support
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mod_mp3.conf
 %attr(755,root,root) %{_pkglibdir}/mod_mp3.so
