@@ -56,7 +56,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{_sbindir}/apxs -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+%{apxs} -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 if [ -f %{_sysconfdir}/httpd.conf ] && \
 	! grep -q "^Include.*/%{arname}.conf" %{_sysconfdir}/httpd.conf; then
 		echo "Include %{_sysconfdir}/%{arname}.conf" >> %{_sysconfdir}/httpd.conf
@@ -67,7 +67,7 @@ fi
 
 %preun
 if [ "$1" = "0" ]; then
-	%{_sbindir}/apxs -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+	%{apxs} -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 	grep -E -v "^Include.*%{arname}.conf" %{_sysconfdir}/httpd.conf > \
 	%{_sysconfdir}/httpd.conf.tmp
 	mv -f %{_sysconfdir}/httpd.conf.tmp %{_sysconfdir}/httpd.conf
