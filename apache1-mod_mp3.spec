@@ -1,10 +1,12 @@
+# TODO
+#  - with mysql and pgsql?
 %define		mod_name	mp3
 %define 	apxs		/usr/sbin/apxs1
 Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache1-mod_%{mod_name}
 Version:	0.40
-Release:	2
+Release:	2.2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.tangent.org/download/mod_%{mod_name}-%{version}.tar.gz
@@ -12,17 +14,17 @@ Source0:	http://www.tangent.org/download/mod_%{mod_name}-%{version}.tar.gz
 Source1:	%{name}.conf
 URL:		http://media.tangent.org/
 BuildRequires:	%{apxs}
-BuildRequires:	apache1-devel >= 1.3.12
+BuildRequires:	apache1-devel >= 1.3.33-2
 BuildRequires:	libghttp-devel
-PreReq:		apache1 >= 1.3.12
-Requires(post,preun):	%{apxs}
-Requires(post,preun):	grep
-Requires(preun):	fileutils
+Requires:	apache1 >= 1.3.33-2
+Requires(triggerpostun):	%{apxs}
+Requires(triggerpostun):	grep
+Requires(triggerpostun):	sed >= 4.0
 Obsoletes:	apache-mod_%{mod_name} <= %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define	_pkglibdir	%(%{apxs} -q LIBEXECDIR)
-%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR)
+%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
+%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
 
 %description
 This turns apache into your basic RIAA hating, but every college
@@ -42,46 +44,54 @@ pamiêci. Baw siê dobrze; pliki MP3 nie s± za³±czone.
 %setup -q -n mod_%{mod_name}-%{version}
 
 %build
-./configure
+./configure \
+	--with-apxs=%{apxs} \
+	%{?debug:--with-debug}
 
 %{__make} \
 	APXS=%{apxs} \
-	ACINCLUDEDIR="-I`%{apxs} -q INCLUDEDIR` `%{apxs} -q CFLAGS` %{rpmcflags} -fPIC"
+	ACINCLUDEDIR="-I$(%{apxs} -q INCLUDEDIR) $(%{apxs} -q CFLAGS) %{rpmcflags} -fPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}}
+install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}/conf.d}
 
 install src/mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/conf.d/90_mod_%{mod_name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{apxs} -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
-if [ -f %{_sysconfdir}/apache.conf ] && \
-	! grep -q "^Include.*/mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf; then
-		echo "Include %{_sysconfdir}/mod_%{mod_name}.conf" >> %{_sysconfdir}/apache.conf
-fi
 if [ -f /var/lock/subsys/apache ]; then
 	/etc/rc.d/init.d/apache restart 1>&2
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-	%{apxs} -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
-	umask 027
-	grep -E -v "^Include.*mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf > \
-		%{_sysconfdir}/apache.conf.tmp
-	mv -f %{_sysconfdir}/apache.conf.tmp %{_sysconfdir}/apache.conf
 	if [ -f /var/lock/subsys/apache ]; then
 		/etc/rc.d/init.d/apache restart 1>&2
 	fi
 fi
 
+%triggerpostun -- %{name} < 0.40-2.1
+if grep -q '^Include conf\.d' /etc/apache/apache.conf; then
+	%{apxs} -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
+	sed -i -e '
+		/^Include.*mod_%{mod_name}\.conf/d
+	' /etc/apache/apache.conf
+else
+	# they're still using old apache.conf
+	sed -i -e '
+		s,^Include.*mod_%{mod_name}\.conf,Include %{_sysconfdir}/conf.d/*_mod_%{mod_name}.conf,
+	' /etc/apache/apache.conf
+fi
+if [ -f /var/lock/subsys/apache ]; then
+	/etc/rc.d/init.d/apache restart 1>&2
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc README ChangeLog LICENSE faq.html support CONTRIBUTORS TODO utils/*
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_%{mod_name}.conf
 %attr(755,root,root) %{_pkglibdir}/mod_mp3.so
