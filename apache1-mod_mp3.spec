@@ -66,7 +66,7 @@ fi
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 fi
-	
+
 %preun
 if [ "$1" = "0" ]; then
 	%{_sbindir}/apxs -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
