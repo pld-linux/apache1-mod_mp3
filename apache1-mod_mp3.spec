@@ -6,7 +6,7 @@ Summary:	MP3 Apache module
 Summary(pl):	Modu³ MP3 do Apache
 Name:		apache1-mod_%{mod_name}
 Version:	0.40
-Release:	2.3
+Release:	3
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.tangent.org/download/mod_%{mod_name}-%{version}.tar.gz
@@ -50,7 +50,7 @@ pamiêci. Baw siê dobrze; pliki MP3 nie s± za³±czone.
 
 %{__make} \
 	APXS=%{apxs} \
-	ACINCLUDEDIR="-I$(%{apxs} -q INCLUDEDIR) $(%{apxs} -q CFLAGS) %{rpmcflags} -fPIC"
+	AINCLUDEDIR="-I$(%{apxs} -q INCLUDEDIR) $(%{apxs} -q CFLAGS) %{rpmcflags} -fPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
