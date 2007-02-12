@@ -3,7 +3,7 @@
 %define		mod_name	mp3
 %define 	apxs		/usr/sbin/apxs1
 Summary:	MP3 Apache module
-Summary(pl):	Modu³ MP3 do Apache
+Summary(pl.UTF-8):   ModuÅ‚ MP3 do Apache
 Name:		apache1-mod_%{mod_name}
 Version:	0.40
 Release:	4
@@ -34,12 +34,12 @@ either straight through or randomly. It can also be used to cache
 MP3's into memory and have the server operate entirely from memory.
 Enjoy, groove, MP3s not included.
 
-%description -l pl
+%description -l pl.UTF-8
 Ten pakiet zamienia Twojego Apache w znienawidzony przez RIAA, ale
-uwielbiany przez studentów serwer strumieni MP3. Mo¿e odtwarzaæ listê
-plików, w kolejno¶ci lub losowo. Mo¿e byæ tak¿e u¿yty do buforowania
-plików MP3 w pamiêci, pozwalaj±c serwerowi operowaæ wy³±cznie na
-pamiêci. Baw siê dobrze; pliki MP3 nie s± za³±czone.
+uwielbiany przez studentÃ³w serwer strumieni MP3. MoÅ¼e odtwarzaÄ‡ listÄ™
+plikÃ³w, w kolejnoÅ›ci lub losowo. MoÅ¼e byÄ‡ takÅ¼e uÅ¼yty do buforowania
+plikÃ³w MP3 w pamiÄ™ci, pozwalajÄ…c serwerowi operowaÄ‡ wyÅ‚Ä…cznie na
+pamiÄ™ci. Baw siÄ™ dobrze; pliki MP3 nie sÄ… zaÅ‚Ä…czone.
 
 %prep
 %setup -q -n mod_%{mod_name}-%{version}
