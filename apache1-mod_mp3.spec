@@ -3,7 +3,7 @@
 %define		mod_name	mp3
 %define 	apxs		/usr/sbin/apxs1
 Summary:	MP3 Apache module
-Summary(pl.UTF-8):   Moduł MP3 do Apache
+Summary(pl.UTF-8):	Moduł MP3 do Apache
 Name:		apache1-mod_%{mod_name}
 Version:	0.40
 Release:	4
