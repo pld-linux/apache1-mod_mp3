@@ -13,8 +13,7 @@ Source0:	http://www.tangent.org/download/mod_%{mod_name}-%{version}.tar.gz
 # Source0-md5:	a36b25ee4db268df45a03231993e718d
 Source1:	%{name}.conf
 URL:		http://media.tangent.org/
-BuildRequires:	apache1-apxs
-BuildRequires:	apache1-devel >= 1.3.33-2
+BuildRequires:	apache1-devel >= 1.3.39
 BuildRequires:	libghttp-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(triggerpostun):	%{apxs}
